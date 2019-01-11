@@ -8,6 +8,9 @@ import {onKey} from './helpers/key';
 import log from './helpers/logger';
 import {titleModal} from './helpers/modal';
 
+/**
+   * A collection of named Rectangles
+   */
 interface namedFrame {
 	[key: string]: Rectangle;
 }
@@ -73,8 +76,14 @@ const createFrame = (frame: Rectangle, namedFrame: Rectangle): Rectangle => {
 	};
 };
 
-const loopFrames = (visibleFrame: Rectangle, namedFrames: Array<string>) => {
-	return namedFrames.map(nF => createFrame(visibleFrame, namedFrame[nF]));
+const loopFrames = (visibleFrame: Rectangle, namedFrames: Array<string>, win: Window) => {
+	const frames = namedFrames.map(nF => createFrame(visibleFrame, namedFrame[nF]));
+	let frame = frames[0];
+	frames.forEach((element, index) => {
+		const last = frames.length - 1 === index;
+		if (!last && objEq(win.frame(), element)) frame = frames[index + 1];
+	});
+	return frame;
 };
 
 onKey('z', hyper, () => {
@@ -83,21 +92,7 @@ onKey('z', hyper, () => {
 
 	const visibleFrame = win.screen().flippedVisibleFrame();
 
-	const frames = loopFrames(visibleFrame, ['h1', 'h2', 't1', 't2', 't3']);
-
-	const frame2 = createFrame(visibleFrame, namedFrame.h1);
-	const frame3 = createFrame(visibleFrame, namedFrame.h2);
-	const frame4 = createFrame(visibleFrame, namedFrame.t1);
-	const frame5 = createFrame(visibleFrame, namedFrame.t2);
-	const frame6 = createFrame(visibleFrame, namedFrame.t3);
-
-	let frame = frames[1];
-
-	// TODO: Make this accept a list of namedFrames instead of making explicit
-	if (objEq(win.frame(), frame2)) frame = frame3;
-	if (objEq(win.frame(), frame3)) frame = frame4;
-	if (objEq(win.frame(), frame4)) frame = frame5;
-	if (objEq(win.frame(), frame5)) frame = frame6;
+	const frame = loopFrames(visibleFrame, ['h1', 'h2', 't1', 't2', 't3'], win);
 
 	win.setFrame(frame);
 	win.clearUnmaximized();
@@ -109,15 +104,7 @@ onKey('z', hyperShift, () => {
 
 	const visibleFrame = win.screen().flippedVisibleFrame();
 
-	const frame2 = createFrame(visibleFrame, namedFrame.tt1);
-	const frame3 = createFrame(visibleFrame, namedFrame.tt2);
-
-	let frame = frame2;
-
-	// TODO: Make this accept a list of namedFrames instead of making explicit
-	if (objEq(win.frame(), frame2)) frame = frame3;
-
-	log({frame, frame2, frame3});
+	const frame = loopFrames(visibleFrame, ['tt1', 'tt2'], win);
 
 	win.setFrame(frame);
 	win.clearUnmaximized();

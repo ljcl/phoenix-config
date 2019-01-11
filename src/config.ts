@@ -5,4 +5,3 @@ export const hyperShift: Phoenix.ModifierKey[] = [
 	'alt',
 	'shift',
 ];
-export const leftWidthPercentage: number = 40;
