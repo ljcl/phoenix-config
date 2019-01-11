@@ -8,12 +8,20 @@ import {onKey} from './helpers/key';
 import log from './helpers/logger';
 import {titleModal} from './helpers/modal';
 
+interface namedFrame {
+	[key: string]: Rectangle;
+}
+
 Phoenix.set({
 	daemon: true,
 	openAtLogin: true,
 });
 
-const closeAppsOnBlur = ['com.apple.Preview', 'com.apple.ActivityMonitor', 'com.apple.Console'];
+const closeAppsOnBlur = [
+	'com.apple.Preview',
+	'com.apple.ActivityMonitor',
+	'com.apple.Console',
+];
 let prevActiveAppClose: App | null = null;
 Event.on('appDidActivate', (app, h) => {
 	// Close certain apps if they have no windows and lose focus.
@@ -34,14 +42,14 @@ Event.on('appDidActivate', (app, h) => {
 	}
 });
 
-const composeFrame = (frame: [number, number, number, number]) => ({
+const composeFrame = (frame: [number, number, number, number]): Rectangle => ({
 	x: frame[0],
 	y: frame[1],
 	width: frame[2],
 	height: frame[3],
 });
 
-const namedFrame = {
+const namedFrame: namedFrame = {
 	h1: composeFrame([0, 0, 1 / 2, 1]),
 	h2: composeFrame([1 / 2, 0, 1 / 2, 1]),
 	t1: composeFrame([0, 0, 1 / 3, 1]),
@@ -51,7 +59,7 @@ const namedFrame = {
 	tt2: composeFrame([1 / 3, 0, 2 / 3, 1]),
 };
 
-const createFrame = (frame: Rectangle, namedFrame: Rectangle) => {
+const createFrame = (frame: Rectangle, namedFrame: Rectangle): Rectangle => {
 	const isPortrait = frame.width / frame.height <= 1;
 	const widthModifier = isPortrait ? namedFrame.height : namedFrame.width;
 	const heightModifier = isPortrait ? namedFrame.width : namedFrame.height;
@@ -65,11 +73,17 @@ const createFrame = (frame: Rectangle, namedFrame: Rectangle) => {
 	};
 };
 
+const loopFrames = (visibleFrame: Rectangle, namedFrames: Array<string>) => {
+	return namedFrames.map(nF => createFrame(visibleFrame, namedFrame[nF]));
+};
+
 onKey('z', hyper, () => {
 	const win = Window.focused();
 	if (!win) return;
 
 	const visibleFrame = win.screen().flippedVisibleFrame();
+
+	const frames = loopFrames(visibleFrame, ['h1', 'h2', 't1', 't2', 't3']);
 
 	const frame2 = createFrame(visibleFrame, namedFrame.h1);
 	const frame3 = createFrame(visibleFrame, namedFrame.h2);
@@ -77,15 +91,13 @@ onKey('z', hyper, () => {
 	const frame5 = createFrame(visibleFrame, namedFrame.t2);
 	const frame6 = createFrame(visibleFrame, namedFrame.t3);
 
-	let frame = frame2;
+	let frame = frames[1];
 
 	// TODO: Make this accept a list of namedFrames instead of making explicit
 	if (objEq(win.frame(), frame2)) frame = frame3;
 	if (objEq(win.frame(), frame3)) frame = frame4;
 	if (objEq(win.frame(), frame4)) frame = frame5;
 	if (objEq(win.frame(), frame5)) frame = frame6;
-
-	log({frame, frame2, frame3, frame4, frame5, frame6});
 
 	win.setFrame(frame);
 	win.clearUnmaximized();
