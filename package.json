@@ -1,7 +1,7 @@
 {
   "name": "phoenix-config",
   "version": "1.0.0",
-  "description": "Configuration for kasper/phoenix written in TypeScript",
+  "description": "Typescript kasper/phoenix config",
   "main": "src/phoenix.ts",
   "dependencies": {
     "@types/lodash": "^4.14.116",
@@ -28,23 +28,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mafredri/phoenix-config.git"
+    "url": "git+https://github.com/ljcl/phoenix-config.git"
   },
   "keywords": [
     "phoenix",
     "typescript"
   ],
-  "author": "Mathias Fredriksson",
+  "author": "Luke Clark",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mafredri/phoenix-config/issues"
+    "url": "https://github.com/ljcl/phoenix-config/issues"
   },
-  "homepage": "https://github.com/mafredri/phoenix-config#readme",
-  "prettier": {
-    "tabWidth": 4,
-    "useTabs": true,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "trailingComma": "all"
-  }
+  "homepage": "https://github.com/ljcl/phoenix-config#readme"
 }

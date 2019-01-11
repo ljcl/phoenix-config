@@ -1,7 +1,4 @@
-import {frameRatio, sizeMatches} from './calc';
-import log from './logger';
-
-export {toggleMaximized, clearUnmaximized};
+import { frameRatio, sizeMatches } from "./calc";
 
 interface FrameCache {
 	screen: Rectangle;
@@ -10,7 +7,7 @@ interface FrameCache {
 
 const frameCache: Map<number, FrameCache> = new Map();
 
-Event.on('windowDidClose', (win: Window) => {
+Event.on("windowDidClose", (win: Window) => {
 	// Cleanup references to unmaximized window frames
 	frameCache.delete(win.hash());
 });
@@ -24,7 +21,7 @@ function unmaximizedFrame(win: Window): Rectangle {
 	if (!c) {
 		c = {
 			screen: win.screen().flippedVisibleFrame(),
-			window: win.frame(),
+			window: win.frame()
 		};
 	}
 	const ratio = frameRatio(c.screen, win.screen().flippedVisibleFrame());
@@ -40,7 +37,7 @@ function toggleMaximized(win: Window) {
 	}
 	frameCache.set(id, {
 		screen: win.screen().flippedVisibleFrame(),
-		window: win.frame(),
+		window: win.frame()
 	});
 	win.maximize();
 }
@@ -51,3 +48,5 @@ Window.prototype.clearUnmaximized = function _clearUnmaximized() {
 Window.prototype.toggleMaximized = function _toggleMaximized() {
 	toggleMaximized(this);
 };
+
+export { toggleMaximized, clearUnmaximized };

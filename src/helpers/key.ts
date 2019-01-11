@@ -1,12 +1,9 @@
-import {hyper, hyperShift} from '../config';
-import log from './logger';
-
 const handlers: Map<string, Key> = new Map();
 
 function onKey(
 	keys: Phoenix.KeyIdentifier | Phoenix.KeyIdentifier[],
 	mod: Phoenix.ModifierKey[],
-	cb: (handler: Key, repeated: boolean) => any,
+	cb: (handler: Key, repeated: boolean) => any
 ) {
 	if (Array.isArray(keys)) {
 		const unbinds = keys.map(key => onKeySingle(key, mod, cb));
@@ -18,7 +15,7 @@ function onKey(
 function onKeySingle(
 	key: Phoenix.KeyIdentifier,
 	mod: Phoenix.ModifierKey[],
-	cb: (handler: Key, repeated: boolean) => any,
+	cb: (handler: Key, repeated: boolean) => any
 ) {
 	const handler = new Key(key, mod, cb);
 	const id = createID(key, mod);
@@ -44,4 +41,4 @@ function getHandler(key: string, mod: string[]) {
 	return handlers.get(id);
 }
 
-export {onKey, getHandler};
+export { onKey, getHandler };
