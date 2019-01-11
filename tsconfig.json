@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "outDir": "out/src",
+    "target": "es2017",
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "pretty": true,
+    "stripInternal": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "typings/globals"
+    ],
+    "lib": [
+      "es2017",
+      "esnext"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

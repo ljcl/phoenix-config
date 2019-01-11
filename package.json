@@ -1,0 +1,50 @@
+{
+  "name": "phoenix-config",
+  "version": "1.0.0",
+  "description": "Configuration for kasper/phoenix written in TypeScript",
+  "main": "src/phoenix.ts",
+  "dependencies": {
+    "@types/lodash": "^4.14.116",
+    "lodash": "^4.17.10",
+    "typescript": "^3.0.1",
+    "typings": "^2.1.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.2",
+    "tslint-config-prettier": "^1.17.0",
+    "ts-loader": "^4.4.2",
+    "tslint": "^5.11.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  },
+  "scripts": {
+    "start": "yarn run watch",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "typings": "typings install",
+    "lint": "tslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mafredri/phoenix-config.git"
+  },
+  "keywords": [
+    "phoenix",
+    "typescript"
+  ],
+  "author": "Mathias Fredriksson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafredri/phoenix-config/issues"
+  },
+  "homepage": "https://github.com/mafredri/phoenix-config#readme",
+  "prettier": {
+    "tabWidth": 4,
+    "useTabs": true,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "trailingComma": "all"
+  }
+}
