@@ -3,15 +3,13 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "baseUrl": "src",
-    "outDir": "out/src",
-    "target": "es2017",
+    "target": "es6",
     "strict": true,
-    "noFallthroughCasesInSwitch": true,
-    "pretty": true,
-    "stripInternal": true,
+    "esModuleInterop": true,
     "typeRoots": [
       "node_modules/@types",
-      "typings/globals"
+      "node_modules/phoenix-typings",
+      "@types"
     ],
     "lib": [
       "es2017",

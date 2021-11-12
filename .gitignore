@@ -2,3 +2,6 @@ node_modules/
 .vscode/
 typings/
 out/
+
+# Pulled in by postinstall script
+@types/phoenix.d.ts

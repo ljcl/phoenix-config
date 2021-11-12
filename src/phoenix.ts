@@ -15,13 +15,13 @@ interface namedFrame {
 
 Phoenix.set({
 	daemon: true,
-	openAtLogin: true
+	openAtLogin: true,
 });
 
 const closeAppsOnBlur = [
 	"com.apple.Preview",
 	"com.apple.ActivityMonitor",
-	"com.apple.Console"
+	"com.apple.Console",
 ];
 let prevActiveAppClose: App | null = null;
 Event.on("appDidActivate", (app, h) => {
@@ -30,7 +30,7 @@ Event.on("appDidActivate", (app, h) => {
 	prevActiveAppClose = null;
 
 	const id = app.bundleIdentifier();
-	if (closeAppsOnBlur.some(v => v === id)) {
+	if (closeAppsOnBlur.some((v) => v === id)) {
 		prevActiveAppClose = app;
 	}
 
@@ -43,11 +43,13 @@ Event.on("appDidActivate", (app, h) => {
 	}
 });
 
-const composeFrame = (frame: [number, number, number, number]): Rectangle => ({
+const composeFrame = (
+	frame: [x: number, y: number, width: number, height: number]
+): Rectangle => ({
 	x: frame[0],
 	y: frame[1],
 	width: frame[2],
-	height: frame[3]
+	height: frame[3],
 });
 
 const namedFrame: namedFrame = {
@@ -57,7 +59,7 @@ const namedFrame: namedFrame = {
 	t2: composeFrame([1 / 3, 0, 1 / 3, 1]),
 	t3: composeFrame([2 / 3, 0, 1 / 3, 1]),
 	tt1: composeFrame([0 / 3, 0, 2 / 3, 1]),
-	tt2: composeFrame([1 / 3, 0, 2 / 3, 1])
+	tt2: composeFrame([1 / 3, 0, 2 / 3, 1]),
 };
 
 const createFrame = (frame: Rectangle, namedFrame: Rectangle): Rectangle => {
@@ -70,7 +72,7 @@ const createFrame = (frame: Rectangle, namedFrame: Rectangle): Rectangle => {
 		x: frame.x + Math.ceil(frame.width * xModifier),
 		y: frame.y + Math.ceil(frame.height * yModifier),
 		width: Math.floor(frame.width * widthModifier),
-		height: Math.floor(frame.height * heightModifier)
+		height: Math.floor(frame.height * heightModifier),
 	};
 };
 
@@ -79,13 +81,13 @@ const loopFrames = (
 	namedFrames: Array<string>,
 	win: Window
 ) => {
-	const frames = namedFrames.map(nF =>
+	const frames = namedFrames.map((nF) =>
 		createFrame(visibleFrame, namedFrame[nF])
 	);
 	let frame = frames[0];
 	frames.forEach((element, index) => {
 		const last = frames.length - 1 === index;
-		if (!last && objEq(win.frame(), element)) frame = frames[index + 1];
+		if (!last && isRectEqual(win.frame(), element)) frame = frames[index + 1];
 	});
 	return frame;
 };
@@ -172,23 +174,23 @@ onKey("c", hyperShift, () => {
 		width: sWidth,
 		height: sHeight,
 		x,
-		y
+		y,
 	} = win.screen().flippedVisibleFrame();
 
 	win.setFrame({
 		height,
 		width,
 		x: x + sWidth / 2 - width / 2,
-		y: y + sHeight / 2 - height / 2
+		y: y + sHeight / 2 - height / 2,
 	});
 });
 
-function objEq(a: { [key: string]: any }, b: { [key: string]: any }) {
+function isRectEqual(a: Record<string, any>, b: Record<string, any>) {
 	const akeys = Object.keys(a);
 	if (akeys.length !== Object.keys(b).length) {
 		return false;
 	}
-	return akeys.every(k => a[k] === b[k]);
+	return akeys.every((k) => a[k] === b[k]);
 }
 
 const phoenixApp = App.get("Phoenix");

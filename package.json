@@ -2,29 +2,27 @@
   "name": "phoenix-config",
   "version": "1.0.0",
   "description": "Typescript kasper/phoenix config",
-  "main": "src/phoenix.ts",
-  "dependencies": {
-    "@types/lodash": "^4.14.116",
-    "lodash": "^4.17.10",
-    "typescript": "^3.0.1",
-    "typings": "^2.1.1"
-  },
+  "main": "dist/phoenix.js",
   "devDependencies": {
-    "prettier": "^1.14.2",
-    "tslint-config-prettier": "^1.17.0",
-    "ts-loader": "^4.4.2",
-    "tslint": "^5.11.0",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0"
+    "@swc/cli": "^0.1.51",
+    "@swc/core": "^1.2.108",
+    "@types/lodash": "^4.14.176",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "lodash": "^4.17.21",
+    "phoenix-typings": "github:mafredri/phoenix-typings",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
   },
   "scripts": {
-    "start": "yarn run watch",
-    "watch": "webpack --watch",
-    "build": "webpack",
-    "typings": "typings install",
-    "lint": "tslint src/**/*.ts",
-    "format": "prettier --write src/**/*.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "node copy-types",
+    "start": "npm run watch",
+    "watch": "spack --watch",
+    "build": "spack",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -39,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/ljcl/phoenix-config/issues"
   },
-  "homepage": "https://github.com/ljcl/phoenix-config#readme"
+  "homepage": "https://github.com/ljcl/phoenix-config#readme",
+  "dependencies": {
+    "swc": "^1.0.11"
+  }
 }
