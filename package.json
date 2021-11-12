@@ -12,6 +12,7 @@
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "lodash": "^4.17.21",
+    "npm-watch": "^0.11.0",
     "phoenix-typings": "github:mafredri/phoenix-typings",
     "prettier": "^2.4.1",
     "typescript": "^4.4.4"
@@ -19,10 +20,19 @@
   "scripts": {
     "postinstall": "node copy-types",
     "start": "npm run watch",
-    "watch": "spack --watch",
+    "watch": "npm-watch",
     "build": "spack",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts",
+      "quiet": true
+    }
   },
   "repository": {
     "type": "git",

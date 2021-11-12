@@ -3,11 +3,11 @@ const handlers: Map<string, Key> = new Map();
 function onKey(
 	keys: Phoenix.KeyIdentifier | Phoenix.KeyIdentifier[],
 	mod: Phoenix.ModifierKey[],
-	cb: (handler: Key, repeated: boolean) => any
+	cb: <K extends Key, R = unknown>(handler: K, repeated: boolean) => R
 ) {
 	if (Array.isArray(keys)) {
-		const unbinds = keys.map(key => onKeySingle(key, mod, cb));
-		return () => unbinds.forEach(u => u());
+		const unbinds = keys.map((key) => onKeySingle(key, mod, cb));
+		return () => unbinds.forEach((u) => u());
 	}
 	return onKeySingle(keys, mod, cb);
 }
@@ -15,7 +15,7 @@ function onKey(
 function onKeySingle(
 	key: Phoenix.KeyIdentifier,
 	mod: Phoenix.ModifierKey[],
-	cb: (handler: Key, repeated: boolean) => any
+	cb: <K extends Key, R = unknown>(handler: K, repeated: boolean) => R
 ) {
 	const handler = new Key(key, mod, cb);
 	const id = createID(key, mod);

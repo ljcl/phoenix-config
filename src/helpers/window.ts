@@ -21,7 +21,7 @@ function unmaximizedFrame(win: Window): Rectangle {
 	if (!c) {
 		c = {
 			screen: win.screen().flippedVisibleFrame(),
-			window: win.frame()
+			window: win.frame(),
 		};
 	}
 	const ratio = frameRatio(c.screen, win.screen().flippedVisibleFrame());
@@ -37,7 +37,7 @@ function toggleMaximized(win: Window) {
 	}
 	frameCache.set(id, {
 		screen: win.screen().flippedVisibleFrame(),
-		window: win.frame()
+		window: win.frame(),
 	});
 	win.maximize();
 }
