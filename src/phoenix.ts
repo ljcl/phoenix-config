@@ -14,9 +14,13 @@ interface namedFrame {
 }
 
 Phoenix.set({
-	daemon: true,
+	daemon: false,
 	openAtLogin: true,
 });
+
+// log("helloh");
+// Phoenix.log(".....sdfsdfsdf");
+// Phoenix.notify(".....sdfsdfsdf");
 
 const closeAppsOnBlur = [
 	"com.apple.Preview",
@@ -157,6 +161,8 @@ onKey("tab", hyperShift, () => {
 });
 
 onKey("c", hyper, () => {
+	Phoenix.log(".....sdfsdfsdf");
+	Phoenix.notify(".....sdfsdfsdf");
 	const win = Window.focused();
 	if (win) {
 		win.toggleMaximized();
@@ -194,4 +200,4 @@ function isRectEqual(a: Record<string, any>, b: Record<string, any>) {
 }
 
 const phoenixApp = App.get("Phoenix");
-titleModal("Reloaded!", 2, phoenixApp && phoenixApp.icon());
+titleModal("Hello", 2, phoenixApp && phoenixApp.icon());
