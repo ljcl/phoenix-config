@@ -92,6 +92,11 @@ const loopFrames = (
 	return frame;
 };
 
+/**
+ * Tile the window in the given frame,
+ * tile it horizontally or vertically depending
+ * on what makes the most sense
+ */
 onKey("z", hyper, () => {
 	const win = Window.focused();
 	if (!win) return;
@@ -104,6 +109,9 @@ onKey("z", hyper, () => {
 	win.clearUnmaximized();
 });
 
+/**
+ * Tile the window with a larger portion
+ */
 onKey("z", hyperShift, () => {
 	const win = Window.focused();
 	if (!win) return;
@@ -116,6 +124,9 @@ onKey("z", hyperShift, () => {
 	win.clearUnmaximized();
 });
 
+/**
+ * Move the window to the next screen
+ */
 onKey("tab", hyper, () => {
 	const win = Window.focused();
 	if (!win) {
@@ -136,26 +147,9 @@ onKey("tab", hyper, () => {
 	win.setFrame(ratio(win.frame()));
 });
 
-onKey("tab", hyperShift, () => {
-	const win = Window.focused();
-	if (!win) {
-		return;
-	}
-
-	const oldScreen = win.screen();
-	const newScreen = oldScreen.next();
-
-	if (oldScreen.isEqual(newScreen)) {
-		return;
-	}
-
-	const move = moveToFrame(
-		oldScreen.flippedVisibleFrame(),
-		newScreen.flippedVisibleFrame()
-	);
-	win.setFrame(move(win.frame()));
-});
-
+/**
+ * Toggle maximized state of window
+ */
 onKey("c", hyper, () => {
 	const win = Window.focused();
 	if (win) {
@@ -163,25 +157,37 @@ onKey("c", hyper, () => {
 	}
 });
 
+/**
+ * Center the window on the screen if it's not fullscreen,
+ * otherwise, resize it to 60% of the screen size and center it.
+ */
 onKey("c", hyperShift, () => {
 	const win = Window.focused();
 	if (!win) {
 		return;
 	}
 
-	const { width, height } = win.frame();
+	const { width: windowWidth, height: windowHeight } = win.frame();
 	const {
-		width: sWidth,
-		height: sHeight,
+		width: screenWidth,
+		height: screenHeight,
 		x,
 		y,
 	} = win.screen().flippedVisibleFrame();
 
+	const newWindowWidth =
+		windowWidth !== screenWidth ? windowWidth : screenWidth * 0.6;
+	const newWindowHeight =
+		windowHeight !== screenHeight ? windowHeight : screenHeight * 0.6;
+
+	log(screenWidth);
+	log("windowWith", windowWidth);
+
 	win.setFrame({
-		height,
-		width,
-		x: x + sWidth / 2 - width / 2,
-		y: y + sHeight / 2 - height / 2,
+		height: newWindowHeight,
+		width: newWindowWidth,
+		x: x + screenWidth / 2 - newWindowWidth / 2,
+		y: y + screenHeight / 2 - newWindowHeight / 2,
 	});
 });
 
